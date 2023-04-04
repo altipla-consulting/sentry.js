@@ -1,0 +1,35 @@
+{
+  "name": "@altipla/sentry",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Helper to connect Sentry to tRPC and Express.",
+  "scripts": {
+    "lib": "tsc --declaration --esModuleInterop --outDir dist",
+    "lint": "tsc --noEmit && eslint --ext .ts src",
+    "fix": "eslint --fix --ext .ts src",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altipla-consulting/sentry.git"
+  },
+  "author": "Altipla Consulting",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/altipla-consulting/sentry/issues"
+  },
+  "homepage": "https://github.com/altipla-consulting/sentry#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "devDependencies": {
+    "@altipla/eslint-config-ts": "^0.6.0",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+  }
+}
