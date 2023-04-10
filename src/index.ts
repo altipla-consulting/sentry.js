@@ -6,21 +6,21 @@ import { getHTTPStatusCodeFromError } from '@trpc/server/http'
 import { type Request, type Response, type NextFunction } from 'express'
 
 
-export function expressRequestHandler(req: Request, res: Response, next: NextFunction) {
+export function expressRequestHandler() {
   if (process.env.SENTRY_DSN) {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
     })
-    return Sentry.Handlers.requestHandler()(req, res, next)
+    return Sentry.Handlers.requestHandler()
   }
 }
 
-export function expressErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
+export function expressErrorHandler() {
   return Sentry.Handlers.errorHandler({
     shouldHandleError(error) {
       return !shouldSilenceError(error)
     },
-  })(error, req, res, next)
+  })
 }
 
 export function trpcErrorHandler(err: Error) {
