@@ -1,31 +1,38 @@
 
-
 import * as Sentry from '@sentry/node'
 import { TRPCError } from '@trpc/server'
 import { getHTTPStatusCodeFromError } from '@trpc/server/http'
-import { type Request, type Response, type NextFunction } from 'express'
+import { type ErrorRequestHandler, type RequestHandler } from 'express'
+import { logger } from '@altipla/logging'
 
 
-export function expressRequestHandler() {
+export function expressRequestHandler(): RequestHandler {
   if (process.env.SENTRY_DSN) {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
     })
     return Sentry.Handlers.requestHandler()
+  } {
+    return (_req, _res, next) => next()
   }
 }
 
-export function expressErrorHandler() {
-  return Sentry.Handlers.errorHandler({
-    shouldHandleError(error) {
-      return !shouldSilenceError(error)
-    },
-  })
+export function expressErrorHandler(): ErrorRequestHandler {
+  return function(error, req, res, next) {
+    logger.error(error)
+    Sentry.Handlers.errorHandler({
+      shouldHandleError(error) {
+        return !shouldSilenceError(error)
+      },
+    })(error, req, res, next)
+    next(error)
+  }
 }
 
-export function trpcErrorHandler(err: Error) {
-  if (process.env.SENTRY_DSN && !shouldSilenceError(err)) {
-    Sentry.captureException(err)
+export function trpcOnError({ error }: { error: Error }) {
+  logger.error(error)
+  if (process.env.SENTRY_DSN && !shouldSilenceError(error)) {
+    Sentry.captureException(error)
   }
 }
 
