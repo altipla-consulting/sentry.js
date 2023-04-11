@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-//(...add more routes here...)
+// (...add more routes here...)
 
 app.use(expressErrorHandler())
 ```
@@ -35,7 +35,7 @@ app.use(expressErrorHandler())
 
 ### tRPC
 
-Set onError when connecting the tRPC routers. For example with the Express connector:
+Set `onError` when connecting the tRPC routers. For example with the Express connector:
 
 ```ts
 import express from 'express'
