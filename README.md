@@ -50,5 +50,4 @@ app.use('/trpc', trpcExpress.createExpressMiddleware({
   context,
   onError: trpcOnError,
 }))
-
 ```
