@@ -15,11 +15,16 @@ npm install @altipla/sentry
 
 ```ts
 import express from 'express'
-import { expressRequestHandler, expressErrorHandler } from "@altipla/sentry"
+import { expressRequestHandler, expressErrorHandler } from '@altipla/sentry'
 
 let app = express()
 app.use(expressRequestHandler())
-(...routes)
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+//(...add more routes here...)
+
 app.use(expressErrorHandler())
 ```
 
@@ -28,10 +33,19 @@ app.use(expressErrorHandler())
 
 ```ts
 import express from 'express'
+import { initTRPC } from '@trpc/server'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { trpcOnError } from "@altipla/sentry"
 
 let app = express()
+let t = initTRPC.create()
+
+let router = t.router({
+  //(...add your routes here...)
+})
+let context = {
+  //(...add your context here...)
+}
 
 app.use('/trpc', trpcExpress.createExpressMiddleware({
   router,
