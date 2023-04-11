@@ -17,14 +17,15 @@ export function expressRequestHandler(): RequestHandler {
   }
 }
 
+let sentryHandler = Sentry.Handlers.errorHandler({
+  shouldHandleError(error) {
+    return !shouldSilenceError(error)
+  },
+})
 export function expressErrorHandler(): ErrorRequestHandler {
   return function(error, req, res, next) {
     logger.error(error)
-    Sentry.Handlers.errorHandler({
-      shouldHandleError(error) {
-        return !shouldSilenceError(error)
-      },
-    })(error, req, res, next)
+    sentryHandler(error, req, res, next)
     next(error)
   }
 }
