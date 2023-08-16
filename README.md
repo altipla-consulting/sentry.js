@@ -41,7 +41,7 @@ Set `onError` when connecting the tRPC routers. For example with the Express con
 import express from 'express'
 import { initTRPC } from '@trpc/server'
 import * as trpcExpress from '@trpc/server/adapters/express'
-import { trpcOnError } from "@altipla/sentry"
+import { trpcOnError } from '@altipla/sentry'
 
 let app = express()
 
