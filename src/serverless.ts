@@ -10,7 +10,7 @@ interface Context {
   waitUntil: (promise: Promise<unknown>) => void
 }
 
-interface ErrorInfo {
+interface ErrorContext {
   error: Error
   request: Request
   context: Context
@@ -18,7 +18,7 @@ interface ErrorInfo {
 
 config()
 
-export function trpcOnError({ error, request, context }: ErrorInfo) {
+export function trpcOnError({ error, request, context }: ErrorContext) {
   logger.error(error)
   if (process.env.SENTRY_DSN && !shouldSilenceError(error)) {
     let sentry = new Toucan({
