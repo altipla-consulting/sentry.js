@@ -10,7 +10,7 @@ export function expressRequestHandler(): RequestHandler {
   if (process.env.SENTRY_DSN) {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
-      release: `${process.env.npm_package_name}@${process.env.npm_package_version}`,
+      release: process.env.VERSION ?? 'v0.0.0',
     })
     return Sentry.Handlers.requestHandler()
   } {
