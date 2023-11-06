@@ -24,7 +24,9 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.test.js",
+    "!dist/**/*.test.d.ts"
   ],
   "main": "dist/index.js",
   "devDependencies": {
