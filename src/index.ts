@@ -34,7 +34,7 @@ export function trpcOnError({ error }: { error: Error }) {
 }
 
 type NextFn = () => Promise<Response> | Response | Promise<void> | void
-export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn) {
+export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn): Promise<void> | Promise<Response> {
   return Sentry.withIsolationScope(async () => {
     let scope = Sentry.getCurrentScope()
     scope.setSDKProcessingMetadata({ request })
@@ -54,7 +54,7 @@ export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn) 
       reportError(prepareError(err))
       return rewrite('/500')
     }
-  })
+  }) as Promise<void> | Promise<Response>
 }
 
 function shouldSilenceError(error: Error): boolean {
