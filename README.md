@@ -23,8 +23,7 @@ let app = express()
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-
-// (...add more routes here...)
+// ...other routes
 
 app.use(expressErrorHandler())
 ```
