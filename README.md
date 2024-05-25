@@ -50,3 +50,18 @@ app.use(
   }),
 )
 ```
+
+### Astro
+
+Add the integration to the chain of server middlewares.
+
+```ts
+import type { MiddlewareHandler } from 'astro'
+import { astroMiddleware } from '@altipla/sentry'
+import { sequence } from 'astro:middleware'
+
+export const onRequest: MiddlewareHandler = sequence(
+  astroMiddleware,
+  // ... other middlewares
+}
+```
