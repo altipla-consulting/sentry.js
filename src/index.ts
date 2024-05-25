@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/node'
 import { TRPCError } from '@trpc/server'
 import { getHTTPStatusCodeFromError } from '@trpc/server/http'
-import type { ErrorRequestHandler } from 'express'
 import { logger } from '@altipla/logging'
 import type { APIContext } from 'astro'
+import type { ErrorRequestHandler } from 'express'
 
 // @ts-expect-error Remove problematic Sentry imports interceptor.
 globalThis._sentryEsmLoaderHookRegistered = true

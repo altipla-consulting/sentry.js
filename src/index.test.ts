@@ -1,6 +1,6 @@
 import { test } from 'vitest'
 import express, { type NextFunction, type Request, type Response } from 'express'
-import { expressErrorHandler } from '.'
+import { expressErrorHandler } from './index.js'
 
 test.runIf(process.env.SENTRY_DSN)('error handler', async () => {
   return new Promise(() => {
