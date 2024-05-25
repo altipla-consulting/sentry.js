@@ -1,5 +1,7 @@
+
 # sentry.js
-Helper to connect Sentry to tRPC &amp; Express.
+
+Helper to connect Sentry to tRPC, Express and Astro.
 
 
 ## Install

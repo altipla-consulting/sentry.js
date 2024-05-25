@@ -1,17 +1,11 @@
 
 import { test } from 'vitest'
 import express, { type NextFunction, type Request, type Response } from 'express'
-import { expressErrorHandler, expressRequestHandler } from '.'
-
-test('request handler', () => {
-  let app = express()
-  app.use(expressRequestHandler())
-})
+import { expressErrorHandler } from '.'
 
 test.runIf(process.env.SENTRY_DSN)('error handler', async () => {
   return new Promise(() => {
     let app = express()
-    app.use(expressRequestHandler())
   
     app.get('/error', (_req, _res) => {
       console.log('throwing error')
