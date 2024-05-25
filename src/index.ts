@@ -40,7 +40,7 @@ export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn) 
     scope.setSDKProcessingMetadata({ request })
 
     try {
-      await next()
+      return await next()
     } catch (err) {
       if (err instanceof Response) {
         logger.warn({
