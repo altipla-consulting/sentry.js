@@ -5,11 +5,11 @@
     "module": "esnext",
     "verbatimModuleSyntax": true,
     "strict": true,
+    "noImplicitAny": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "baseUrl": "src",
-    "esModuleInterop": true,
-    "declaration": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "/*": [
         "*"

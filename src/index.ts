@@ -2,23 +2,21 @@
 import * as Sentry from '@sentry/node'
 import { TRPCError } from '@trpc/server'
 import { getHTTPStatusCodeFromError } from '@trpc/server/http'
-import { type ErrorRequestHandler, type RequestHandler } from 'express'
+import type { ErrorRequestHandler } from 'express'
 import { logger } from '@altipla/logging'
 
+// @ts-expect-error Remove problematic Sentry imports interceptor.
+globalThis._sentryEsmLoaderHookRegistered = true
 
-export function expressRequestHandler(): RequestHandler {
-  if (process.env.SENTRY_DSN) {
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN,
-      release: process.env.VERSION,
-    })
-    return Sentry.Handlers.requestHandler()
-  } {
-    return (_req, _res, next) => next()
-  }
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    release: process.env.VERSION,
+    integrations: [Sentry.linkedErrorsIntegration()],
+  })
 }
 
-let sentryHandler = Sentry.Handlers.errorHandler({
+let sentryHandler = Sentry.expressErrorHandler({
   shouldHandleError(error) {
     return !shouldSilenceError(error)
   },
