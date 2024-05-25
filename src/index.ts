@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node'
 import { TRPCError } from '@trpc/server'
 import { getHTTPStatusCodeFromError } from '@trpc/server/http'
 import { logger } from '@altipla/logging'
-import type { APIContext } from 'astro'
+import type { MiddlewareHandler } from 'astro'
 import type { ErrorRequestHandler } from 'express'
 
 // @ts-expect-error Remove problematic Sentry imports interceptor.
@@ -33,8 +33,7 @@ export function trpcOnError({ error }: { error: Error }) {
   captureError(prepareError(error))
 }
 
-type NextFn = () => Promise<Response> | Response | Promise<void> | void
-export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn): Promise<void> | Promise<Response> {
+export const astroMiddleware: MiddlewareHandler = ({ request, rewrite }, next) => {
   return Sentry.withIsolationScope(async () => {
     let scope = Sentry.getCurrentScope()
     scope.setSDKProcessingMetadata({ request })
@@ -54,7 +53,7 @@ export function astroMiddleware({ request, rewrite }: APIContext, next: NextFn):
       reportError(prepareError(err))
       return rewrite('/500')
     }
-  }) as Promise<void> | Promise<Response>
+  })
 }
 
 function shouldSilenceError(error: Error): boolean {
