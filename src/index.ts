@@ -50,7 +50,7 @@ export const astroMiddleware: MiddlewareHandler = ({ request, rewrite }, next) =
         return err
       }
 
-      reportError(prepareError(err))
+      captureError(prepareError(err))
       return rewrite('/500')
     }
   })
