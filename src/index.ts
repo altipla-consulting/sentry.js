@@ -59,7 +59,7 @@ export const astroMiddleware: MiddlewareHandler = ({ request, rewrite }, next) =
 function shouldSilenceError(error: Error): boolean {
   if (error instanceof TRPCError) {
     let code = getHTTPStatusCodeFromError(error)
-    if (code === 404) {
+    if (code === 404 || code === 400) {
       return true
     }
   }
