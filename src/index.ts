@@ -39,7 +39,7 @@ export const astroMiddleware: MiddlewareHandler = ({ request, rewrite }, next) =
     scope.setSDKProcessingMetadata({ request })
 
     try {
-      return await next()
+      return await next(request.clone())
     } catch (err) {
       if (err instanceof Response) {
         logger.warn({
